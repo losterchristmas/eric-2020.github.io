@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="js-基础篇章" class="h-entry article article-type-js" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/02/%E5%9F%BA%E7%A1%80%E7%AF%87%E7%AB%A0/" class="article-date">
+  <time class="dt-published" datetime="2021-03-02T00:32:19.000Z" itemprop="datePublished">2021-03-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/02/%E5%9F%BA%E7%A1%80%E7%AF%87%E7%AB%A0/">闭包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>官方说法：一个函数和对其周围状态（lexical environment，词法环境）的引用捆绑在一起（或者说函数被引用包围），这样的组合就是闭包（closure）。也就是说，闭包让你可以在一个内层函数中访问到其外层函数的作用域。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。</p>
+<p>我的理解：说到底就是方法里面定义局部变量，让外界方法执行时使用的是局部变量</p>
+<h4 id="请看下面的代码："><a href="#请看下面的代码：" class="headerlink" title="请看下面的代码："></a>请看下面的代码：</h4><p>function init() {<br>var name = “Mozilla”; // name 是一个被 init 创建的局部变量<br>function displayName() { // displayName() 是内部函数，一个闭包<br>alert(name); // 使用了父函数中声明的变量<br>}<br>displayName();<br>}<br>init();</p>
+<p>init() 创建了一个局部变量 name 和一个名为 displayName() 的函数。displayName() 是定义在 init() 里的内部函数，并且仅在 init() 函数体内可用。请注意，displayName() 没有自己的局部变量。然而，因为它可以访问到外部函数的变量，所以 displayName() 可以使用父函数 init() 中声明的变量 name 。</p>
+<h4 id="我们看下面的一个例子"><a href="#我们看下面的一个例子" class="headerlink" title="我们看下面的一个例子"></a>我们看下面的一个例子</h4><p>function makeAdder(x) {<br>return function(y) {<br>return x + y;<br>};<br>}</p>
+<p>var add5 = makeAdder(5);<br>var add10 = makeAdder(10);</p>
+<p>console.log(add5(2)); // 7<br>console.log(add10(2)); // 12</p>
+<p>在这个示例中，我们定义了 makeAdder(x) 函数，它接受一个参数 x ，并返回一个新的函数。返回的函数接受一个参数 y，并返回 x+y 的值。</p>
+<p>从本质上讲，makeAdder 是一个函数工厂 — 他创建了将指定的值和它的参数相加求和的函数。在上面的示例中，我们使用函数工厂创建了两个新函数 — 一个将其参数和 5 求和，另一个和 10 求和。</p>
+<p>add5 和 add10 都是闭包。它们共享相同的函数定义，但是保存了不同的词法环境。在 add5 的环境中，x 为 5。而在 add10 中，x 则为 10。</p>
+<h4 id="闭包常用于去抖截流函数"><a href="#闭包常用于去抖截流函数" class="headerlink" title="闭包常用于去抖截流函数"></a>闭包常用于去抖截流函数</h4><p>什么是节流和去抖？</p>
+<h4 id="1、节流"><a href="#1、节流" class="headerlink" title="1、节流"></a>1、节流</h4><p>节流就是拧紧水龙头让水少流一点，但是不是不让水流了。想象一下在现实生活中有时候我们需要接一桶水，接水的同时不想一直站在那等着，可能要离开一会去干一点别的事请，让水差不多流满一桶水的时候再回来，这个时候，不能把水龙头开的太大，不然还没回来水就已经满了，浪费了好多水，这时候就需要节流，让自己回来的时候水差不多满了。</p>
+<p>那在 JS 里有没有这种情况呢，典型的场景是图片懒加载监听页面的 scoll 事件，或者监听鼠标的 mousemove 事件，这些事件对应的处理方法相当于水，由于 scroll 和 mousemove 在鼠标移动的时候会被浏览器频繁的触发，会导致对应的事件也会被频繁的触发（水流的太快了），这样就会造成很大的浏览器资源开销，而且好多中间的处理是不必要的，这样就会造成浏览器卡顿的现象，这时候就需要节流。</p>
+<p>如何节流呢？我们无法做到让浏览器不去触发对应的事件，但是可以做到让处理事件的方法执行频率减少，从而减少对应的处理开销。</p>
+<h4 id="2、去抖"><a href="#2、去抖" class="headerlink" title="2、去抖"></a>2、去抖</h4><p>最早接触这个词应该是在高中物理里面学到的，有时候开关在在真正闭合之前可能会发生一些抖动现象，如果抖动的明显的话，对应的小灯泡可能会闪烁，把灯泡闪坏了不重要，万一把眼睛再给闪坏了可就麻烦了，这个时候就有去抖电路的出现。</p>
+<p>而在我们的页面里，也有这种情况，假设我们的一个输入框，输入内容的同时可能会去后台查询对应的联想词，如果用户输入的同时，频繁的触发 input 事件，然后频繁的向后台发送请求，那么直到用户输入完成时，之前的请求都应该是多余的，假设网络慢一点，后台返回的数据比较慢，那么显示的联想词可能会出现频繁的变换，直到最后的一个请求返回。</p>
+<p>如何去抖呢？这个时候就可以在一定时间内监听是否再次输入，如果没有再次输入则认为本次输入完成，发送请求，否则就是判定用户仍在输入，不发送请求。</p>
+<h4 id="3、节流和去抖区别"><a href="#3、节流和去抖区别" class="headerlink" title="3、节流和去抖区别"></a>3、节流和去抖区别</h4><p>去抖和节流是不同的，因为节流虽然中间的处理函数被限制了，但是只是减少了频率，而去抖则把中间的处理函数全部过滤掉了，只执行规判定时间内的最后一个事件。</p>
+<h3 id="JS-实现方式"><a href="#JS-实现方式" class="headerlink" title="JS 实现方式"></a>JS 实现方式</h3><h4 id="1、节流："><a href="#1、节流：" class="headerlink" title="1、节流："></a>1、节流：</h4><p>/** 实现思路：<br>** 参数需要一个执行的频率，和一个对应的处理函数,<br>** 内部需要一个 lastTime 变量记录上一次执行的时间<br>**/</p>
+<p>function throttle(func, wait) {<br>let lastTime = null;// 为了避免每次调用 lastTime 都被清空，利用 js 的闭包返回一个 function;此外声明为全局变量也可以<br>return function() {<br>let now = new Date();<br>// 如果上次执行的时间和这次触发的时间大于一个执行周期，则执行<br>if (now - lastTime - wait &gt; 0) {<br>func();<br>lastTime = now;<br>}<br>}<br>}</p>
+<h4 id="再看如何调用："><a href="#再看如何调用：" class="headerlink" title="再看如何调用："></a>再看如何调用：</h4><p>// 由于闭包的存在，调用会不一样<br>let throttleRun = throttle(() =&gt; {<br>console.log(123);<br>}, 400);<br>window.addEventListener(‘scroll’, throttleRun);</p>
+<h3 id="2、去抖："><a href="#2、去抖：" class="headerlink" title="2、去抖："></a>2、去抖：</h3><p>去抖的方法，和节流思路一致，但是只有在抖动被判定结束后，方法才会得到执行。</p>
+<p>function debounce(func, wait) {<br>let lastTime = null;<br>let timeout;<br>return function() {<br>let context = this;<br>let now = new Date();<br>// 判定不是一次抖动<br>if (now - lastTime - wait &gt; 0) {<br>setTimeout(() =&gt; {<br>func.apply(context, arguments);<br>}, wait);<br>} else {<br>if (timeout) {<br>clearTimeout(timeout);<br>timeout = null;<br>}<br>timeout = setTimeout(() =&gt; {<br>func.apply(context, arguments);<br>}, wait);<br>}<br>// 注意这里 lastTime 是上次的触发时间<br>lastTime = now;<br>}<br>}</p>
+<h3 id="3、分享："><a href="#3、分享：" class="headerlink" title="3、分享："></a>3、分享：</h3><p>我们再给大家分享一下网友的实现方法的代码：</p>
+<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>这种实现方式的思路很好理解：设置一个一间隔时间，比如 50 毫秒，以此时间为基准设置定时器，当第一次触发事件到第二次触发事件间隔小于 50 毫秒时，清除这个定时器，并设置一个新的定时器，以此类推，直到有一次事件触发后 50 毫秒内没有重复触发。</p>
+<p>代码如下：</p>
+<p>function debounce(method) {<br>clearTimeout(method.timer);<br>method.timer = setTimeout(function() {<br>method();<br>}, 50);<br>}</p>
+<p>这种设计方式有一个问题：本来应该多次触发的事件，可能最终只会发生一次。具体来说，一个循序渐进的滚动事件，如果用户滚动太快速，或者程序设置的函数节流间隔时间太长，那么最终滚动事件会呈现为一个很突然的跳跃事件，中间过程都被节流截掉了。这个例子举的有点夸张了，不过使用这种方式进行节流最终是会明显感受到程序比不节流的时候“更突兀”，这对于用户体验是很差的。有一种弥补这种缺陷的设计思路。</p>
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>第二种实现方式的思路与第一种稍有差别：设置一个间隔时间，比如 50 毫秒，以此时间为基准稳定分隔事件触发情况，也就是说 100 毫秒内连续触发多次事件，也只会按照 50 毫秒一次稳定分隔执行。代码如下：</p>
+<p>var oldTime = new Date().getTime();<br>var delay = 50;</p>
+<p>function throttle1(method) {<br>var curTime = new Date().getTime();<br>if (curTime - oldTime &gt;= delay) {<br>oldTime = curTime;<br>method();<br>}<br>}</p>
+<p>相比于第一种方法，第二种方法也许会比第一种方法执行更多次（有时候意味着更多次请求后台，即更多的流量），但是却很好的解决了第一种方法清除中间过程的缺陷。因此在具体场景应根据情况择优决定使用哪种方法。</p>
+<p>对于方法二，我们再提供另一种同样功能的写法：(作者推荐)</p>
+<p>var timer = undefined,<br>delay = 50;</p>
+<p>function throttle2(method) {<br>if (timer) {<br>return;<br>}<br>method();<br>timer = setTimeout(function() {<br>timer = undefined;<br>}, delay);<br>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/02/%E5%9F%BA%E7%A1%80%E7%AF%87%E7%AB%A0/" data-id="ckls0kqn20000qksxalr9dvbg" data-title="闭包" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS/" rel="tag">JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/01/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2021-03-01T11:41:13.000Z" itemprop="datePublished">2021-03-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/01/hello-world/">新年开篇-前端之路</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="新年新生-进阶的前端"><a href="#新年新生-进阶的前端" class="headerlink" title="新年新生 进阶的前端"></a>新年新生 进阶的前端</h2><p>今年是 2021 年，不知道写些什么好，一转眼从事前端已经 3 年多了，从当初的小白进阶成一名能独当一面的程序员了，其中经历的心酸也值得我回味一下。</p>
+<p>本人 18 年毕业于电子科技大学中山学院，在毕业之前便已经开始从事前端这个岗位，在毕业的时候已经有半年的工作经验，当时因为工资的关系选择了跳槽，去到了我的第二份工作中担任前端负责人，其实说是负责人整个公司也没有几人，全都是在用 jq 拧螺丝，在这个过程中我开始越发自信觉得前段就是那么一回事，直到接触了第一位来我们这面试的人告诉我前段还有很多领域可以专研，他给我推荐了一条路 —— Vue，从那以后我便发奋在学，越学越觉得自己与别人的差距越远，一直到我掌握了 vue 基础之后便开始思考今后的路在何方。</p>
+<p>在 19 年年底我放弃了年终奖以及年底双薪跳巢于第三份工作，在这里能用得上我学的 Vue，能让我快速成长这也是我当初跳巢的理由，跳槽之后的日子天天都是 007，虽然很累但是特别充实，感觉自己进步的特别快，学了许多 Vue 的生态以及测试。</p>
+<p>到了 21 年初，公司开始重构项目用 react native 来做，这对我来说是一个挑战但更是一个充实自己的机会。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/01/hello-world/" data-id="cklql4o3m0000ngsxc8tkc9ge" data-title="新年开篇-前端之路" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JS/" rel="tag">JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JS/" style="font-size: 10px;">JS</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/02/%E5%9F%BA%E7%A1%80%E7%AF%87%E7%AB%A0/">闭包</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/01/hello-world/">新年开篇-前端之路</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

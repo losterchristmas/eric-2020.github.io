@@ -231,6 +231,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/04/ES%202021/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eric.T">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/04/ES%202021/" itemprop="url">ES 2021 新特性</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-03-04T20:42:43+08:00">
+                2021-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- > 转自：转自：[bb 老猫](https://juejin.cn/post/6914538946751889422) -->
+
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a><font color="#FF455B" size="5">简介</font></h4><p>ES2021 也就是 2021 年的 ECMAScript 版本。ES2021 并没有像 ES2015 那样提出很多新特性，但却合并了一些有用的特性。</p>
+<p>本文将会用通俗易懂的代码示例来介绍 ES2021 的新特性。当然在这之前，你需要了解 JavaScript 的基础知识。</p>
+<p>以下是 ES2021 的新特性概览：</p>
+<ul>
+<li><font color="#ec7259" size="3">String.prototype.replaceAll</font></li>
+<li><font color="#ec7259" size="3">Promise.any</font></li>
+<li><font color="#ec7259" size="3">WeakRef</font></li>
+<li>逻辑赋值运算符</li>
+<li>数字分隔符</li>
+</ul>
+<h4 id="String-protype-replaceAll"><a href="#String-protype-replaceAll" class="headerlink" title="String.protype.replaceAll"></a><font color="#FF455B" size="4">String.protype.replaceAll</font></h4><p>在 ES2021 之前，要替换掉一个字符串中的所有指定字符，我们可以这么做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fruits = <span class="string">&quot;🍎+🍐+🍓+&quot;</span></span><br><span class="line"><span class="keyword">const</span> fruitsWithBanana = fruits.replace(<span class="regexp">/\+/g</span>, <span class="string">&quot;🍌&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(fruitsWithBanana) <span class="comment">//🍎🍌🍐🍌🍓🍌</span></span><br></pre></td></tr></table></figure>
+
+<p>ES2021 则提出了 replaceAll 方法，并将其挂载在 String 的原型上，可以这么用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fruits = <span class="string">&quot;🍎+🍐+🍓+&quot;</span></span><br><span class="line"><span class="keyword">const</span> fruitsWithBanana = fruits.replaceAll(<span class="string">&quot;+&quot;</span>, <span class="string">&quot;🍌&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(fruitsWithBanana) <span class="comment">//🍎🍌🍐🍌🍓🍌</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Promise-any"><a href="#Promise-any" class="headerlink" title="Promise.any"></a><font color="#FF455B" size="4">Promise.any</font></h4><p><font color="#e96900" size="4">Promise.any</font> 方法和 <font color="#e96900" size="4">Promise.race</font> 类似——只要给定的迭代中的一个 promise 成功，就采用第一个 promise 的值作为它的返回值，但与 <font color="#e96900" size="4">Promise.race</font> 的不同之处在于——它会等到所有 promise 都失败之后，才返回失败的值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> myFetch = <span class="function">(<span class="params">url</span>) =&gt;</span></span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> fetch(url), <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">3000</span>))</span><br><span class="line"><span class="keyword">const</span> promises = [</span><br><span class="line">  myFetch(<span class="string">&quot;/endpoint-1&quot;</span>),</span><br><span class="line">  myFetch(<span class="string">&quot;/endpoint-2&quot;</span>),</span><br><span class="line">  myFetch(<span class="string">&quot;/endpoint-3&quot;</span>),</span><br><span class="line">]</span><br><span class="line"><span class="comment">// 使用 .then .catch</span></span><br><span class="line"><span class="built_in">Promise</span>.any(promises) <span class="comment">// 任何一个 promise 成功。</span></span><br><span class="line">  .then(<span class="built_in">console</span>.log) <span class="comment">// 比如 ‘3’</span></span><br><span class="line">  .catch(<span class="built_in">console</span>.error) <span class="comment">// 所有的 promise 都失败了</span></span><br><span class="line"><span class="comment">// 使用 async-await</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> first = <span class="keyword">await</span> <span class="built_in">Promise</span>.any(promises) <span class="comment">// 任何一个 promise 成功返   回。</span></span><br><span class="line">  <span class="built_in">console</span>.log(first)</span><br><span class="line">&#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">  <span class="comment">// 所有的 promise 都失败了</span></span><br><span class="line">  <span class="built_in">console</span>.log(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="WeakRef"><a href="#WeakRef" class="headerlink" title="WeakRef"></a><font color="#FF455B" size="4">WeakRef</font></h4><p><font color="#e96900" size="4">WeakRef</font> 提案主要包含两个新功能：</p>
+<ul>
+<li>可以通过 <font color="#e96900" size="4">WeakRef</font> 类来给某个对象创建一个弱引用</li>
+<li>可以通过 <font color="#e96900" size="4">FinalizationRegistry</font> 类，在某个对象被垃圾回收之后，执行一些自定义方法<br>上述两个新功能可以同时使用，也可以单独使用，取决于你的需求。</li>
+</ul>
+<p>一个 <font color="#e96900" size="4">WeakRef</font> 对象包含一个对于某个对象的弱引用，被称为 目标 或 引用。通过弱引用一个对象，可以让该对象在没有其它引用的情况下被垃圾回收机制回收。</p>
+<p><font color="#e96900" size="4">WeakRef</font> 主要用来 缓存 和 映射 一些大型对象，当你希望某个对象在不被其它地方引用的情况下及时地被垃圾回收，那么你就可以使用它。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toogle</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> weakElement = <span class="keyword">new</span> WeakRef(element)</span><br><span class="line">  <span class="keyword">let</span> intervalId = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">toggle</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> el = weakElement.deref()</span><br><span class="line">    <span class="keyword">if</span> (!el) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">clearInterval</span>(intervalId)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> decoration = weakElement.style.textDecoration</span><br><span class="line">    <span class="keyword">const</span> style = decoration === <span class="string">&quot;none&quot;</span> ? <span class="string">&quot;underline&quot;</span> : <span class="string">&quot;none&quot;</span></span><br><span class="line">    decoration = style</span><br><span class="line">  &#125;</span><br><span class="line">  intervalId = <span class="built_in">setInterval</span>(toggle, <span class="number">1000</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> element = <span class="built_in">document</span>.getElementById(<span class="string">&quot;link&quot;</span>)</span><br><span class="line">toogle(element)</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> element.remove(), <span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+
+<p><font color="#e96900" size="4">FinalizationRegistry</font> 接收一个注册器回调函数，可以利用该注册器为指定对象注册一个事件监听器，当这个对象被垃圾回收之后，会触发监听的事件，具体步骤如下。</p>
+<p>首先，创建一个注册器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> registry = <span class="keyword">new</span> FinalizationRegistry(<span class="function">(<span class="params">heldValue</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ....</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>接着注册一个指定对象，同时也可以给注册器回调传递一些参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">registry.register(theObject, <span class="string">&quot;some value&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="逻辑赋值运算符"><a href="#逻辑赋值运算符" class="headerlink" title="逻辑赋值运算符"></a><font color="#FF455B" size="4">逻辑赋值运算符</font></h4><pre><code>译者注：赋值运算符 和 表达式 的区别可以 看这里。
+</code></pre>
+<p>逻辑赋值运算符结合了 逻辑运算符 和 赋值表达式。逻辑赋值运算符有两种：</p>
+<ul>
+<li>或等于（||=）</li>
+<li>且等于（&amp;&amp;=）</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 或等于</span></span><br><span class="line">|   a   |   b   | a ||= b | a (运算后) |</span><br><span class="line">| <span class="literal">true</span>  | <span class="literal">true</span>  |   <span class="literal">true</span>  |        <span class="literal">true</span>         |</span><br><span class="line">| <span class="literal">true</span>  | <span class="literal">false</span> |   <span class="literal">true</span>  |        <span class="literal">true</span>         |</span><br><span class="line">| <span class="literal">false</span> | <span class="literal">true</span>  |   <span class="literal">true</span>  |        <span class="literal">true</span>         |</span><br><span class="line">| <span class="literal">false</span> | <span class="literal">false</span> |   <span class="literal">false</span> |        <span class="literal">false</span>        |</span><br><span class="line">a ||= b</span><br><span class="line"><span class="comment">// 等同于:</span></span><br><span class="line">a || (a = b);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 且等于</span></span><br><span class="line">|   a   |   b   | a &amp;&amp;= b | a (运算后) |</span><br><span class="line">| <span class="literal">true</span>  | <span class="literal">true</span>  |   <span class="literal">true</span>  |        <span class="literal">true</span>         |</span><br><span class="line">| <span class="literal">true</span>  | <span class="literal">false</span> |   <span class="literal">false</span> |        <span class="literal">false</span>        |</span><br><span class="line">| <span class="literal">false</span> | <span class="literal">true</span>  |   <span class="literal">false</span> |        <span class="literal">false</span>        |</span><br><span class="line">| <span class="literal">false</span> | <span class="literal">false</span> |   <span class="literal">false</span> |        <span class="literal">false</span>        |</span><br><span class="line">a &amp;&amp;= b</span><br><span class="line"><span class="comment">// 等同于:</span></span><br><span class="line">a &amp;&amp; (a = b);</span><br></pre></td></tr></table></figure>
+
+<h4 id="数字分隔符"><a href="#数字分隔符" class="headerlink" title="数字分隔符"></a><font color="#FF455B" size="4">数字分隔符</font></h4><p>通过这个功能，我们利用 “（_，U+005F）” 分隔符来将数字分组，提高数字的可读性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1_000_000_000</span> <span class="comment">// 十亿</span></span><br><span class="line"><span class="number">101_475_938.38</span> <span class="comment">// 亿万</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> amount = <span class="number">12345_00</span> <span class="comment">// 12,345</span></span><br><span class="line"><span class="keyword">const</span> amount = <span class="number">123_4500</span> <span class="comment">// 123.45 (保留 4 位小数)</span></span><br><span class="line"><span class="keyword">const</span> amount = <span class="number">1_234_500</span> <span class="comment">// 1,234,500</span></span><br><span class="line"></span><br><span class="line"><span class="number">0.000_001</span> <span class="comment">// 百万分之一</span></span><br><span class="line"><span class="number">1e10_000</span> <span class="comment">// 10^10000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> binary_literals = <span class="number">0b1010_0001_1000_0101</span></span><br><span class="line"><span class="keyword">const</span> hex_literals = <span class="number">0xa0_b0_c0</span></span><br><span class="line"><span class="keyword">const</span> bigInt_literals = <span class="number">1_000_000_000_000n</span></span><br><span class="line"><span class="keyword">const</span> octal_literal = <span class="number">0o1234_5670</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a><font color="#FF455B" size="4">总结</font></h4><p>JavaScript 是一门动态类型语言，这在某些方面来说对于 web 开发是有益的。自 ES2015 之后，JavaScript 正在快速发展。在这篇文章里面，我们着重回顾了 ES2021 的一些新特性。</p>
+<p>尽管你的项目可能并不会用到这些新特性，但是它们的确为项目开发提供了多种可能性，不是么？</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/04/Vue%20%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1164,7 +1334,7 @@ console.log(e) //[undefined, undefined, undefined]
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1177,7 +1347,7 @@ console.log(e) //[undefined, undefined, undefined]
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

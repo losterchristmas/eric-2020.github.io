@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="什么是渲染循环也被称之为遍历，就是把你需要的全部东西都找出来，常规操作中都是用 for 循环我们需要的东西，把里面的细节给找出来。 for 循环我们一开是接触的 for 是这样写的： for (let i &#x3D; 0; i &lt; len.length; i ++) &amp;#123;     console.log( len[i] ) &amp;#125;  这样写是完全没问题的，但是对于比较喜欢偷懒的程序员来">
+<meta name="description" content="什么是渲染循环也被称之为遍历，就是把你需要的全部东西都找出来，常规操作中都是用 for 循环我们需要的东西，把里面的细节给找出来。 for 循环我们一开是接触的 for 是这样写的： 123for (let i &#x3D; 0; i &lt; len.length; i++) &amp;#123;  console.log(len[i])&amp;#125;  这样写是完全没问题的，但是对于比较喜欢偷懒的程序员来说，每次">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS 常规操作 ----- 循环">
 <meta property="og:url" content="http://example.com/2021/03/03/JS%20%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C%20----%20%E5%BE%AA%E7%8E%AF/index.html">
 <meta property="og:site_name" content="Eric.T">
-<meta property="og:description" content="什么是渲染循环也被称之为遍历，就是把你需要的全部东西都找出来，常规操作中都是用 for 循环我们需要的东西，把里面的细节给找出来。 for 循环我们一开是接触的 for 是这样写的： for (let i &#x3D; 0; i &lt; len.length; i ++) &amp;#123;     console.log( len[i] ) &amp;#125;  这样写是完全没问题的，但是对于比较喜欢偷懒的程序员来">
+<meta property="og:description" content="什么是渲染循环也被称之为遍历，就是把你需要的全部东西都找出来，常规操作中都是用 for 循环我们需要的东西，把里面的细节给找出来。 for 循环我们一开是接触的 for 是这样写的： 123for (let i &#x3D; 0; i &lt; len.length; i++) &amp;#123;  console.log(len[i])&amp;#125;  这样写是完全没问题的，但是对于比较喜欢偷懒的程序员来说，每次">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-03-03T13:07:10.000Z">
-<meta property="article:modified_time" content="2021-03-03T13:07:25.709Z">
+<meta property="article:modified_time" content="2021-03-05T13:13:34.638Z">
 <meta property="article:author" content="Eric.T">
 <meta property="article:tag" content="JS">
 <meta name="twitter:card" content="summary">
@@ -302,45 +302,24 @@
       
         <h3 id="什么是渲染"><a href="#什么是渲染" class="headerlink" title="什么是渲染"></a>什么是渲染</h3><p>循环也被称之为遍历，就是把你需要的全部东西都找出来，常规操作中都是用 for 循环我们需要的东西，把里面的细节给找出来。</p>
 <h3 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h3><p>我们一开是接触的 for 是这样写的：</p>
-<pre><code>for (let i = 0; i &lt; len.length; i ++) &#123;
-    console.log( len[i] )
-&#125;
-</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len.length; i++) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(len[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这样写是完全没问题的，但是对于比较喜欢偷懒的程序员来说，每次写 for 循环的时候都要写 (let i = 0; i &lt; len.length; i ++) 这个不是什么舒服的事情，经过一点点升级 我们可以用 in 或 of 来代替括号中的内容比如：</p>
-<pre><code>for (let i in len) &#123;
-    console.log( len[i] )
-&#125;
-</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> len) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(len[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这样写就能大大提高写 for 循环的效率，但是有时候还会遇到点问题就是偷懒想把这个 for 循环再简化下，这时候我们可以用到 forEach，可以这样写：</p>
-<pre><code>var array = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];
-array.forEach(function(element) &#123;
-  console.log(element);
-&#125;);
-</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]</span><br><span class="line">array.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(element)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>这样写的话还有一些地方可以优化，就是尖头函数：</p>
-<pre><code>var array = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];
-array.forEach((element) =&gt; &#123;
-  console.log(element);
-&#125;);
-</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]</span><br><span class="line">array.forEach(<span class="function">(<span class="params">element</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(element)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>说到 forEach，可以扩展到 map 方法，该方法和 forEach 的区别：</p>
 <p>forEach 是没有返回值的，比如：</p>
-<pre><code>var array = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];
-var e = array.forEach((element) =&gt; &#123;
-  console.log(element);
-&#125;);
-console.log(e) //undefined
-</code></pre>
-<p>map 有返回值的，比如：</p>
-<pre><code>var array = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];
-var e = array.map((element) =&gt; &#123;
-  return element
-&#125;);
-console.log(e) //[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> e = array.forEach(<span class="function">(<span class="params">element</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(element)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(e) <span class="comment">//undefined</span></span><br></pre></td></tr></table></figure>
 
-如果不写return的话，那么就会显示
-console.log(e) //[undefined, undefined, undefined]
-</code></pre>
+<p>map 有返回值的，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>];</span><br><span class="line"><span class="keyword">var</span> e = array.map(<span class="function">(<span class="params">element</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> element</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(e) <span class="comment">//[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]</span></span><br><span class="line"></span><br><span class="line">如果不写<span class="keyword">return</span>的话，那么就会显示</span><br><span class="line"><span class="built_in">console</span>.log(e) <span class="comment">//[undefined, undefined, undefined]</span></span><br></pre></td></tr></table></figure>
+
 <p>那么我们什么时候用 foreach 什么时候用 map 呢，在我看来 如果你需要一个新的值去接收遍历后的结果那么就用 map；如果只是单单想通过循环去做某件事，那么用 map 和 forEach 都是可以的</p>
 <h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p>说完 map 之后，还有一些常用的函数推荐给大家，reduce，filter，every，some</p>
 <h4 id="some-用法"><a href="#some-用法" class="headerlink" title="some 用法"></a><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-some.html">some 用法</a></h4><h5 id="some-方法用于检测数组中的元素是否满足指定条件（函数提供）。"><a href="#some-方法用于检测数组中的元素是否满足指定条件（函数提供）。" class="headerlink" title="some() 方法用于检测数组中的元素是否满足指定条件（函数提供）。"></a>some() 方法用于检测数组中的元素是否满足指定条件（函数提供）。</h5><h5 id="some-方法会依次执行数组的每个元素："><a href="#some-方法会依次执行数组的每个元素：" class="headerlink" title="some() 方法会依次执行数组的每个元素："></a>some() 方法会依次执行数组的每个元素：</h5><ul>
